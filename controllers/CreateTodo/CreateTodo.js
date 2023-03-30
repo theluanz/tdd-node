@@ -1,20 +1,19 @@
 const prismaClient = require('../../prisma/prismaClient');
 
-async function CreateTodo({ name, date, isCompleted = false }) {
-  if (!name) {
-    throw new Error('Name is required');
-  }
-  if (!date) {
-    throw new Error('Date is required');
-  }
+async function CreateTodo( {name, date, isCompleted = false}) {
 
-  return await prismaClient.todo.create({
+  if (!name || !date) {
+    throw new Error('Name and Date are required');
+  }
+  
+  const todo = await prismaClient.todo.create({
     data: {
       name,
       date,
       isCompleted,
     },
   });
+  return todo;
 }
 
 module.exports = CreateTodo;
