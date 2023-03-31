@@ -19,7 +19,8 @@ test("Deve ser possível ler um todo", async () => {
 
   expect(todo.name).toBe(preTodoCreated.name);
   expect(todo.id).toBe(preTodoCreated.id);
-  expect(todo.date).toBe(preTodoCreated.date);
+  expect(todo.date).toEqual(preTodoCreated.date);
+ 
 
 });
 
