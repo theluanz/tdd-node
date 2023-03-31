@@ -1,4 +1,5 @@
 const UpdateTodo = require('./UpdateTodo');
+const CreateTodo = require('../CreateTodo/CreateTodo');
 
 async function createNewTodo() {
   const todo = await CreateTodo({
@@ -18,7 +19,7 @@ test('Deve ser possível atualizar Nome, Data e se está completo de um Todo', a
     isCompleted: true,
   };
 
-  const updatedTodo = await UpdateTodo(preTodoCreated.id, { updatedData });
+  const updatedTodo = await UpdateTodo({ id: preTodoCreated.id, ...updatedData });
 
   expect(updatedTodo.name).toBe(updatedData.name);
   expect(updatedTodo.date).toEqual(updatedData.date);
@@ -33,7 +34,7 @@ test('Deve ser possível atualizar somente o nome de um Todo', async () => {
     name: 'Fazer um Todo atualizado',
   };
 
-  const updatedTodo = await UpdateTodo(preTodoCreated.id, { updatedData });
+  const updatedTodo = await UpdateTodo({ id: preTodoCreated.id, ...updatedData });
 
   expect(updatedTodo.isCompleted).toBe(preTodoCreated.isCompleted);
 
@@ -49,7 +50,7 @@ test('Deve ser possível atualizar somente a data de um Todo', async () => {
     date: new Date('2023-04-01'),
   };
 
-  const updatedTodo = await UpdateTodo(preTodoCreated.id, { updatedData });
+  const updatedTodo = await UpdateTodo({ id: preTodoCreated.id, ...updatedData });
 
   expect(updatedTodo.isCompleted).toBe(preTodoCreated.isCompleted);
 
@@ -65,7 +66,7 @@ test('Deve ser possível atualizar somente o status de um Todo', async () => {
     isCompleted: true,
   };
 
-  const updatedTodo = await UpdateTodo(preTodoCreated.id, { updatedData });
+  const updatedTodo = await UpdateTodo({ id: preTodoCreated.id, ...updatedData });
 
   expect(updatedTodo.isCompleted).toBe(updatedData.isCompleted);
 
@@ -83,5 +84,7 @@ test('Não deve ser possível atualizar um todo com um ID inexistente', async ()
 
   const nonExistentId = 'non-existent-id';
 
-  await expect(UpdateTodo(nonExistentId, { updatedData })).rejects.toThrow('Todo não existe');
+  await expect(UpdateTodo({ id: nonExistentId, ...updatedData })).rejects.toThrow(
+    'Todo não existe',
+  );
 });
